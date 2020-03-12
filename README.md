@@ -5,7 +5,7 @@ __For usage instrution please check [Usage README](https://github.com/SamyuelDan
 
 __For full documentation - system design, experiemnts & findings please read [NLPSupportVectorMachineDoc Report](https://github.com/SamyuelDanyo/NLPSupportVectorMachine/blob/master/docs/NLPSupportVectorMachineDoc.pdf)__
 
-![SVM Fit LDA 2-D Projection](/res/LOG_LDA_Soft_0.1_Pol_3_SVM_plot.PNG)
+![SVM Fit LDA 2-D Projection](/res/LOG_LDA/LOG_LDA_Soft_0.1_Pol_3_SVM_plot.PNG)
 
 ## Introduction
 In this report I present my implementation of the Support Vector Machine (SVM) classification algorithm. In addition, two pattern recognition methods: Principal Component Analysis (PCA) & Linear Discriminant Analysis (LDA), are utilized for transforming the data-space into, a better formed, feature space. The three methods are full-custom implementations in Python. Additionally, visualizations, classification results and analysis of the SPAM E-mail Dataset, are presented. 
@@ -38,55 +38,66 @@ The transform aims to find the directions that maximize the variance (separation
 ### Design
 The SVM classifier aims to find the optimal hyperplane decision boundary (separation) between two classes {-1,1}. It approaches the task by maximizing the margin (distance) between the data and the hyperplane (the hyperplane can be shifted to make sure it separates the margin equally). The vectors going through the points between which is the margin are called support vectors. Maximizing the margin is proven to yield the optimal separation (leads to lower probability of misclassification) by Cristianini and Shawe-Taylor. Formulated as optimization problem, where we try to maximize the normalized (geometric) margin, while keeping the absolute (functional) margin the same (=1), leading to minimization of the weights (hyperplane parameters). The problem can be summed up as:
 
-__*min(1/2W.T*W)
-subject to: d*(W.T*X+b)>=1 (d = class) 
-find: w,b*__
+___min(1/2W.T*W)___
+
+___subject to: d*(W.T*X+b)>=1 (d = class)___
+
+__*find: w,b*__
 
 Such primal optimization problem can be approached, using Lagrange Theorem, aiming to find the equality and inequality Lagrange multipliers. The optimization problem can be further remodeled, using the Kuhn-Tucker Theorem, to transform it from primal to dual problem, where a single parameter (the Lagrange multipliers) yields the solution. The dual problem is:
 
-__*min(W=a*d*SV (SV=X for X which a=>0) or max(ai -1/2ai*aj*di*dj*Xi.T*Xj),
-subject to: a*d=0
-            a=>0
-Find: a*__
+___min(W=a*d*SV (SV=X for X which a=>0) or max(ai -1/2ai*aj*di*dj*Xi.T*Xj),___
+
+___subject to: a*d=0___
+
+   #### a=>0
+
+__*Find: a*__
 
 In order to solve the problem, dual quadratic programming is required, which yields the Lagrange multipliers and hence the hyperplane parameters.
 
 The obvious problem though is that this is a linear separation. Meaning it will work for linearly separable classes. In order to improve the performance on overlapping data, the soft margin is introduced. The concept allows for data-points to be inside the margin (or on the wrong side of it), by introducing the slack variables, which added together and scaled by ‘C’ (the cost of violating the constraints) are the error penalty. The optimization problem aims not only to maximize the margin but also minimize the error:
 
-__*min(1/2W.T*W + C*slack) 
-subject to: d*(W.T*X+b)>=1 -slack
-            slack>=0, hence 0<=a<= C (as part of the dual problem)*__
+__*min(1/2W.T*W + C*slack)*__
+
+__*subject to: d*(W.T*X+b)>=1 - slack*__
+
+   #### slack>=0, hence 0<=a<= C (as part of the dual problem)
             
 The third SVM concept is the kernel transform (known as the Kernel trick). It is based on Cover's Theorem, which states that: “Probability that classes are linearly separable increases when data points in input space are nonlinearly mapped to a higher dimensional feature space.”. In order to deal with non-linear data (which is not separable in the data space), the kernel transform K(), maps the input data into a feature space, before extracting the support vectors.
 
 ## Experimental Setup
 All experiments (without evaluation) are performed for each of the three preprocessing/transform configurations (binarization + No transform, standardization + 15-D PCA, log + 2-D LDA) of the dataset.
-  __Train & Test | Hard Margin SVM With Linear Kernel – the train set is used to fit SVM model. The test set is used to test its classification performance.__
+
+  __Train & Test | Hard Margin SVM With Linear Kernel__ – the train set is used to fit SVM model. The test set is used to test its classification performance.
   
-  __Train & Test | Hard Margin SVM With Polynomial Kernel – the train set is used to fit SVM model. The test set is used to test its classification performance. The experiment is performed for p ∈ {2, 3, 4, 5}.__
+  __Train & Test | Hard Margin SVM With Polynomial Kernel__ – the train set is used to fit SVM model. The test set is used to test its classification performance. The experiment is performed for p ∈ {2, 3, 4, 5}.
   
-  __Train & Test | Soft Margin SVM With Polynomial Kernel – the train set is used to fit SVM model. The test set is used to test its classification performance. The experiment is performed for p ∈ {1, 2, 3, 4, 5} for C ∈ {0.1, 0.6, 1.1, 2.1}.__
+  __Train & Test | Soft Margin SVM With Polynomial Kernel__ – the train set is used to fit SVM model. The test set is used to test its classification performance. The experiment is performed for p ∈ {1, 2, 3, 4, 5} for C ∈ {0.1, 0.6, 1.1, 2.1}.
   
-  __EVALUATION | Soft Margin (C=1.1) SVM With Gaussian Kernel – the train set is used to fit SVM model. The evaluation set is used to test its classification performance.__
+  __EVALUATION | Soft Margin (C=1.1) SVM With Gaussian Kernel__ – the train set is used to fit SVM model. The evaluation set is used to test its classification performance.
 
 ## Resuts
 __For full results & obervations please read [NLPSupportVectorMachineDoc Report](https://github.com/SamyuelDanyo/NLPSupportVectorMachine/blob/master/docs/NLPSupportVectorMachineDoc.pdf)__
 
 __For all figures please check [NLPSupportVectorMachine Resources](https://github.com/SamyuelDanyo/NLPSupportVectorMachine/blob/master/res)__
 
+
 __LDA Dataset Projection__
-![LDA Dataset Projection](/res/LOG_LDA_train_plot.png)
+
+![LDA Dataset Projection](/res/LOG_LDA/LOG_LDA_train_plot.PNG)
 
 __SVM Soft Margin[2.1] Polynomial[2] Kernel Fit__
-![SVM Soft Margin Polynomial Kernel Fit](/res/LOG_LDA_Soft_2.1_Pol_2_SVM_plot.PNG)
+![SVM Soft Margin Polynomial Kernel Fit](/res/LOG_LDA/LOG_LDA_Soft_2.1_Pol_2_SVM_plot.PNG)
 
 __SVM Soft Margin[2.1] Polynomial[2] Kernel Fit Confusion Table__
-![SVM Soft Margin Polynomial Kernel Fit Confusion Table](/res/LOG_LDA_Soft_2.1_Pol_2_Conf.PNG)
+![SVM Soft Margin Polynomial Kernel Fit Confusion Table](/res/LOG_LDA/LOG_LDA_Soft_2.1_Pol_2_Conf.PNG)
 
 __SVM Soft Margin[0.1] Polynomial[2] Kernel Fit Perofrmance__
 ![SVM Soft Margin Polynomial Kernel Fit Performance](/res/pol_soft_perf.PNG)
 
 __SVM Fit Binarized Dataset Results__
+
 ![SVM Fit Binarized Dataset Results](/res/BNY_Results.PNG)
 
 __SVM Fit Standardized Dataset + PCA Results__
