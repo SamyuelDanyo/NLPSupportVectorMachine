@@ -1,9 +1,11 @@
 # NLPSupportVectorMachine
 Natural Language Processing (NLP) spam/ham email classification via full custom Support Vector Machine (hard/soft margin, linear/polynomial/Gaussian kernel) and Principal Component Analysis / Linear Discriminant Analysis implementation.
 
-__For usage instrution please check [Usage README](https://github.com/SamyuelDanyo/NLPSupportVectorMachine/blob/master/docs/README.txt)__
+__For usage instructions please check [Usage README](https://github.com/SamyuelDanyo/NLPSupportVectorMachine/blob/master/docs/README.txt)__
 
-__For full documentation - system design, experiemnts & findings please read [NLPSupportVectorMachineDoc Report](https://github.com/SamyuelDanyo/NLPSupportVectorMachine/blob/master/docs/NLPSupportVectorMachineDoc.pdf)__
+__For full documentation - system design, experiments & findings please read [NLPSupportVectorMachineDoc Report](https://github.com/SamyuelDanyo/NLPSupportVectorMachine/blob/master/docs/NLPSupportVectorMachineDoc.pdf)__
+
+__[GutHub Pages Format](https://samyueldanyo.github.io/nlp-support-vector-machine/)__
 
 ![SVM Fit LDA 2-D Projection](/res/LOG_LDA/LOG_LDA_Soft_0.1_Pol_3_SVM_plot.PNG)
 
